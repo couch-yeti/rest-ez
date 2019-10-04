@@ -1,5 +1,4 @@
 
-
 class Register:
 	"""
 	Singleton class that acts as a store of all the potential resources and associated calls available in a given API. 
@@ -41,7 +40,7 @@ class Register:
 		"""
 		return [f for f in i.getmembers(route) if i.isfunction(f[1])]
 
-	def add(self, verb = "GET", route = None):
+	def add(self, verb = "POST", route = None):
 		"""	"""
 
 		class class_decorator:
@@ -61,7 +60,7 @@ class Register:
 
 		return class_decorator
 
-	def get(selff, key):
+	def get(self, key):
 
 		return Register._registry.get(key, None)
 
@@ -70,13 +69,16 @@ class Register:
 		return Register._registry[key]
 
 
-f = Register()
 
-class Bullshit:
+r = Register()
+class Something:
 
-	@f.add()
-	def sigh(self, notstuff, stuff):
-		return "blah"
+	@r.add(verb = "GET", route = "blah")
+	def somefunc(self):
+		return "bar"
+
+
+print(r._registry)
 
 class Call:
 
@@ -116,66 +118,66 @@ class Call:
 
 
 
-test = {
-   "resource":"/{proxy+}",
-   "path":"bullshit/",
-   "httpMethod":"GET",
-   "headers":"Null",
-   "multiValueHeaders":"Null",
-   "queryStringParameters":{
-      "notstuff":"bar"
-   },
-   "multiValueQueryStringParameters":{
-      "stuff":[
-         "foo",
-         "bar"
-      ]
-   },
-   "pathParameters":{
-      "proxy":"something/123/users"
-   },
-   "stageVariables":"Null",
-   "requestContext":{
-      "resourceId":"tlpx5g",
-      "resourcePath":"/{proxy+}",
-      "httpMethod":"GET",
-      "extendedRequestId":"AvfiBE7QvHcFq1g=",
-      "requestTime":"28/Sep/2019:18:54:43 +0000",
-      "path":"/{proxy+}",
-      "accountId":"911808035826",
-      "protocol":"HTTP/1.1",
-      "stage":"test-invoke-stage",
-      "domainPrefix":"testPrefix",
-      "requestTimeEpoch":1569696883211,
-      "requestId":"98f2ea03-1b91-4b9b-a69f-13ccdfe597bb",
-      "identity":{
-         "cognitoIdentityPoolId":"Null",
-         "cognitoIdentityId":"Null",
-         "apiKey":"test-invoke-api-key",
-         "principalOrgId":"Null",
-         "cognitoAuthenticationType":"Null",
-         "userArn":"arn:aws:iam::911808035826:root",
-         "apiKeyId":"test-invoke-api-key-id",
-         "userAgent":"aws-internal/3 aws-sdk-java/1.11.633 Linux/4.9.184-0.1.ac.235.83.329.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.222-b10 java/1.8.0_222 vendor/Oracle_Corporation",
-         "accountId":"911808035826",
-         "caller":"911808035826",
-         "sourceIp":"test-invoke-source-ip",
-         "accessKey":"ASIA5IS76PPZJGDW7P6C",
-         "cognitoAuthenticationProvider":"Null",
-         "user":"911808035826"
-      },
-      "domainName":"testPrefix.testDomainName",
-      "apiId":"hnr5hcfad3"
-   },
-   "body":"Null",
-   "isBase64Encoded":False
-}
+# test = {
+#    "resource":"/{proxy+}",
+#    "path":"bullshit/",
+#    "httpMethod":"GET",
+#    "headers":"Null",
+#    "multiValueHeaders":"Null",
+#    "queryStringParameters":{
+#       "notstuff":"bar"
+#    },
+#    "multiValueQueryStringParameters":{
+#       "stuff":[
+#          "foo",
+#          "bar"
+#       ]
+#    },
+#    "pathParameters":{
+#       "proxy":"something/123/users"
+#    },
+#    "stageVariables":"Null",
+#    "requestContext":{
+#       "resourceId":"tlpx5g",
+#       "resourcePath":"/{proxy+}",
+#       "httpMethod":"GET",
+#       "extendedRequestId":"AvfiBE7QvHcFq1g=",
+#       "requestTime":"28/Sep/2019:18:54:43 +0000",
+#       "path":"/{proxy+}",
+#       "accountId":"911808035826",
+#       "protocol":"HTTP/1.1",
+#       "stage":"test-invoke-stage",
+#       "domainPrefix":"testPrefix",
+#       "requestTimeEpoch":1569696883211,
+#       "requestId":"98f2ea03-1b91-4b9b-a69f-13ccdfe597bb",
+#       "identity":{
+#          "cognitoIdentityPoolId":"Null",
+#          "cognitoIdentityId":"Null",
+#          "apiKey":"test-invoke-api-key",
+#          "principalOrgId":"Null",
+#          "cognitoAuthenticationType":"Null",
+#          "userArn":"arn:aws:iam::911808035826:root",
+#          "apiKeyId":"test-invoke-api-key-id",
+#          "userAgent":"aws-internal/3 aws-sdk-java/1.11.633 Linux/4.9.184-0.1.ac.235.83.329.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.222-b10 java/1.8.0_222 vendor/Oracle_Corporation",
+#          "accountId":"911808035826",
+#          "caller":"911808035826",
+#          "sourceIp":"test-invoke-source-ip",
+#          "accessKey":"ASIA5IS76PPZJGDW7P6C",
+#          "cognitoAuthenticationProvider":"Null",
+#          "user":"911808035826"
+#       },
+#       "domainName":"testPrefix.testDomainName",
+#       "apiId":"hnr5hcfad3"
+#    },
+#    "body":"Null",
+#    "isBase64Encoded":False
+# }
 
-r = Register()
-print(r._registry)
+# r = Register()
+# print(r._registry)
 
-c = Call(test)
-print(c.params)
-print(c.class_)
-print(c.func)
-print(c.run())
+# c = Call(test)
+# print(c.params)
+# print(c.class_)
+# print(c.func)
+# print(c.run())
