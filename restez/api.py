@@ -5,6 +5,7 @@ class Register:
 	"""
 
 	_registry = {}
+	_route_keys = set()
 
 	def __new__(self):
 		if not hasattr(self, 'instance'):
@@ -40,7 +41,7 @@ class Register:
 		"""
 		return [f for f in i.getmembers(route) if i.isfunction(f[1])]
 
-	def add(self, verb = "POST", route = None):
+	def add(self, verbs = ["POST"], route = None):
 		"""	"""
 
 		class class_decorator:
@@ -53,32 +54,25 @@ class Register:
 				# print(key)
 				# key = self.rk or owner.__name__.lower() + "/"
 				key = route or owner.__name__.lower() + "/"
-				Register._registry[key] = {verb : {"class_": owner, "func": self.fn}}
+
+				[Register._route_keys.add(i) for i in key.split("/") if i]
+				
+				for verb in verbs:
+					Register._registry[verb] = {key : {"class_": owner, "func": self.fn}}
 
 				# then replace ourself with the original method
 				setattr(owner, name, self.fn)
 
 		return class_decorator
 
-	def get(self, key):
+	def get(self, key, default = None):
 
-		return Register._registry.get(key, None)
+		return Register._registry.get(key, default)
 
 	def __getitem__(self, key):
 
 		return Register._registry[key]
 
-
-
-r = Register()
-class Something:
-
-	@r.add(verb = "GET", route = "blah")
-	def somefunc(self):
-		return "bar"
-
-
-print(r._registry)
 
 class Call:
 
@@ -100,6 +94,7 @@ class Call:
 
 
 	def _get_params(self):
+		if self.event["httpMethod"] != "POST":
 		q =  self.event.get("queryStringParameters", {})
 		m = self.event.get("multiValueQueryStringParameters", {})
 		self.params.update(q)
